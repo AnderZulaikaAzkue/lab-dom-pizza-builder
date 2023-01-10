@@ -83,16 +83,33 @@ function renderGlutenFreeCrust() {
 
 function renderButtons() {
   // Iteration 3: add/remove the class "active" of each `<button class="btn">`
-    if (document.querySelector('.btn').classList.contains('active')) {
-      document.querySelector('.btn').classList.remove('active')
-    } else {
-      document.querySelector('.btn').classList.add('active')
+  document.querySelectorAll('.btn').forEach((button) => {
+    button.onclick = (e) => {
+      if (e.target.classList.contains('active')) {
+        e.target.classList.remove('active')
+      } else {
+        e.target.classList.add('active');
+      }
     }
-  
+  })
 }
 
 function renderPrice() {
   // Iteration 4: change the HTML of `<aside class="panel price">`
+  {
+    let total = basePrice;
+    let topping = "";
+    for (let ingredient in state) {
+      if (state[ingredient]) {
+        total += ingredients[ingredient]['price'];
+        topping += `<li>$${ingredients[ingredient]['price']} ${ingredient}</li>`;
+      }
+      let priceList = document.querySelector(".price ul");
+      priceList.innerHTML = topping;
+      let totalPriceRender = document.querySelector('.price strong');
+      totalPriceRender.innerHTML = `$${total}`;
+  }
+}
 }
 
 renderEverything();
